@@ -13,23 +13,35 @@ export default function ApiReqLoop() {
     socket.emit('message', payload)
     setMessages(prev => [...prev, payload])
   }
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    handleMessage(message)
-  }
-  const onConnect = () => {
-    console.log('connected')
-  }
 
-  socket.on('connect', onConnect);
-  socket.on('disconnect', (event) => console.log('disconnected ' + event));
-  socket.on('message', (message) => {
-    setMessage('')
-    setMessages(prev => [...prev, message])
-  })
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleMessage(message);
+    setMessage('');
+  };
+
+
 
   useEffect(() => {
     fetch('http://localhost:5000/user').then(res => res.json()).then(data => setUser(data))
+
+
+
+// moving the code that waits for messaages inside the useEffect hook
+    socket.on('message', (message) => {
+          setMessages(prev => [...prev, message]);
+        });
+
+
+//adding a closing logic once the message is sent, the socket.off function cleares the listenres on the message event
+
+return () => {
+      socket.off('message');
+
+    };
+
 
   }, []) // removing the user data from the useEffect dependency array because it's causing 
          // the infinte triggering of the /user endpoint, making it an empty array will call
