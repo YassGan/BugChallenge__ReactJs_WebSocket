@@ -19,8 +19,8 @@ app.get('/', (req, res) => {
 
 app.get('/user', (req, res) => {
     const user = {
-        name: 'John',
-        email: 'john@butly-ai.com',
+        name: 'GANA Yassine',
+        email: 'yassinegana.gana@butly-ai.com',
         avatar: 'https://api.dicebear.com/8.x/notionists/svg?seed=John'
     };
 
