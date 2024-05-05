@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { socket } from './socket'
@@ -30,7 +31,13 @@ export default function ApiReqLoop() {
   useEffect(() => {
     fetch('http://localhost:5000/user').then(res => res.json()).then(data => setUser(data))
 
-  }, [user])
+  }, []) // removing the user data from the useEffect dependency array because it's causing 
+         // the infinte triggering of the /user endpoint, making it an empty array will call
+         // it just once.
+
+
+
+
 
   return (
     <div className='flex flex-col gap-20'>
